@@ -13,8 +13,8 @@ export default function Incidents(){
     const [incidents,setIncidents] = useState([])
     const [total,setTotal] = useState(0)
 
-    function navigationToDetail(){
-        navigation.navigate('Detail');
+    function navigationToDetail(incident){ 
+        navigation.navigate('Detail',{ incident });  //passa o parametro para a proxima tela
     }
 
     async function loadIncidents() {
@@ -22,7 +22,7 @@ export default function Incidents(){
         setIncidents(res.data)
         setTotal(res.headers['x-total-count'])     
     }
-    
+
     useEffect(() => {
         loadIncidents()
     }, [])
@@ -55,7 +55,7 @@ export default function Incidents(){
                 <Text style={styles.incidentValue}>
                     {Intl.NumberFormat('pt-BR',{style : 'currency', currency: 'BRL'}).format(incident.value)}</Text>
 
-                <TouchableOpacity style={styles.detailsButton} onPress={navigationToDetail}>
+                <TouchableOpacity style={styles.detailsButton} onPress={() => navigationToDetail(incident)}>
                     <Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
                     <Feather name="arrow-right" size={16} color="#E02041"/>
                 </TouchableOpacity>
